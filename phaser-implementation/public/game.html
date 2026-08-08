@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <base href="/">
+        <title>Cops and Robbers</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div class="game-layout">
+            <div class="game-page">
+                <div id="player-badge" class="player-badge" hidden>
+                    <span id="player-badge-dot" class="colour-dot"></span>
+                    <span id="player-badge-text"></span>
+                </div>
+                <p id="status-line" class="status-line"></p>
+                <div id="phaser-parent" class="canvas-wrap"></div>
+                <div class="controls">
+                    <button id="start-button" class="game-button" hidden>Start Game</button>
+                    <button id="commit-button" class="game-button" hidden disabled>Commit Move</button>
+                </div>
+            </div>
+            <aside class="instructions">
+                <h2>How to play</h2>
+                <ul>
+                    <li>You're randomly assigned as the <strong>Cop</strong> (green) or the <strong>Robber</strong> (red) when you join. A third player joining spectates instead.</li>
+                    <li>The Robber is trying to reach the <strong>honey node</strong> (yellow) without getting caught.</li>
+                    <li>Click a node connected to yours by a line to pick your move, then press <strong>Commit Move</strong>.</li>
+                    <li>Both players move at the same time - you won't see their move until you've committed yours.</li>
+                    <li>The Cop wins by landing on the Robber's node. The Robber wins by reaching the honey.</li>
+                </ul>
+            </aside>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
+        <script type="module" src="js/game.js"></script>
+    </body>
+</html>

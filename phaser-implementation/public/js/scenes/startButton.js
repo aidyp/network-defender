@@ -1,25 +1,24 @@
-import { eventsRouter } from '../scenes/eventsRouter.js';
+import { eventsRouter } from './eventsRouter.js';
 
-// Text objects in Phaser prefer a different format colour 
-
-
-
-class StartButton extends Phaser.GameObjects.Text {
-    constructor(scene) {
-        super(scene, 350, 350, 'START', {fill: '#00FF00'});
-        scene.add.existing(this);
-        this.setDisplayOrigin(0, 0);
-        this.setInteractive({useHandCursor: true})
-            .on('pointerdown', () => this.handleButtonClick())
-
+// A thin wrapper around the real <button> in game.html. Built once and
+// toggled with show()/hide() so re-showing it between rounds never
+// re-registers a duplicate click listener.
+class StartButton {
+    constructor() {
+        this.el = document.getElementById('start-button');
+        this.el.addEventListener('click', () => eventsRouter.emit('start_button_clicked'));
     }
 
-    handleButtonClick() {
-        eventsRouter.emit('start_button_clicked');
+    set_label(text) {
+        this.el.textContent = text;
     }
 
-    remove() {
-        this.destroy(true);
+    show() {
+        this.el.hidden = false;
+    }
+
+    hide() {
+        this.el.hidden = true;
     }
 }
 

@@ -1,38 +1,31 @@
-import { eventsRouter } from '../scenes/eventsRouter.js';
-import { PHASER_RENDER_CONFIG } from './renderConfig.js';
+import { eventsRouter } from './eventsRouter.js';
 
-// Text objects in Phaser prefer a different format colour 
-
-
-
-class CommitButton extends Phaser.GameObjects.Text {
-    constructor(scene) {
-        super(scene, 350, 500, 'COMMIT', {fill: PHASER_RENDER_CONFIG.text_colours.grey});
-        scene.add.existing(this);
-        this.setDisplayOrigin(0, 0);
-        // Set up the listener 
-        eventsRouter.on('node_clicked', this.enableButtonClick, this);
-        
+// A thin wrapper around the real <button> in game.html. Built once and
+// toggled with show()/hide()/enable()/disable() so re-showing it between
+// rounds never re-registers a duplicate listener on 'node_clicked'.
+class CommitButton {
+    constructor() {
+        this.el = document.getElementById('commit-button');
+        this.el.addEventListener('click', () => eventsRouter.emit('player_committed_move'));
+        eventsRouter.on('node_clicked', this.enable, this);
     }
 
-    enableButtonClick() {
-        // Change colour to blue 
-        this.setFill(PHASER_RENDER_CONFIG.text_colours.blue);
-        this.setInteractive({ useHandCursor: true})
-            .on('pointerdown', () => this.handleButtonClick());
-        
+    show() {
+        this.el.hidden = false;
+        this.disable();
     }
 
-    disableButtonClick() {
-        // Change colour back to grey 
-        this.setFill(PHASER_RENDER_CONFIG.text_colours.blue);
-        this.disableInteractive();
+    hide() {
+        this.el.hidden = true;
     }
 
-    handleButtonClick() {
-        eventsRouter.emit('player_committed_move');
+    enable() {
+        this.el.disabled = false;
+    }
+
+    disable() {
+        this.el.disabled = true;
     }
 }
 
 export { CommitButton };
-

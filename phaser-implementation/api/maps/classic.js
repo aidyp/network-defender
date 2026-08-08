@@ -1,6 +1,11 @@
-const mapInfo = {
+// Each map is a plain object: node ids, the edges between them, and a
+// normalised (0-1) position per node. The client scales positions up to
+// the canvas size at render time, so maps stay resolution-independent.
+const classic = {
+    id: 'classic',
+    name: 'Classic Network',
     nodes: [0,1,2,3,4,5,6,7,8,9,10],
-    edges: [[0,1], 
+    edges: [[0,1],
             [1,2],
             [1,3],
             [1,4],
@@ -34,10 +39,10 @@ const mapInfo = {
         10: [0.9, 0.5]
     },
     characters: {
-        0: 0,
-        1: 10,
+        cop: 0,
+        robber: 10,
         honey: 5
     }
 };
 
-module.exports = mapInfo;
+module.exports = classic;
