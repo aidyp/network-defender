@@ -1,0 +1,204 @@
+:root {
+    --bg: #1b1f24;
+    --surface: #262b33;
+    --text: #f2f2f2;
+    --muted: #9aa4af;
+    --accent: #4f8cff;
+    --accent-text: #ffffff;
+    --border: #3a4048;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 24px;
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+}
+
+p {
+    color: var(--muted);
+}
+
+a {
+    color: var(--accent);
+}
+
+button {
+    font-family: inherit;
+}
+
+.primary-button {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    filter: brightness(1.1);
+}
+
+.primary-button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* Landing / create-game page */
+
+.landing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+.game-link-row {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.game-link-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Game page */
+
+.game-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.game-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.player-badge[hidden] {
+    display: none;
+}
+
+.colour-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--muted);
+}
+
+.colour-dot[hidden] {
+    display: none;
+}
+
+.colour-dot-green {
+    background: #00ff00;
+}
+
+.colour-dot-red {
+    background: #ff0000;
+}
+
+.status-line {
+    min-height: 1.2em;
+    font-size: 1.1rem;
+}
+
+.canvas-wrap {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.instructions {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 280px;
+    margin-top: calc(32px + 16px + 1.2em + 16px); /* line up with the canvas, below the badge + status line */
+}
+
+.instructions h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+}
+
+.instructions ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.instructions li + li {
+    margin-top: 10px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+.game-button {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.game-button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.game-button[hidden] {
+    display: none;
+}

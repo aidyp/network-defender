@@ -13,14 +13,14 @@ var PHASER_RENDER_CONFIG = {
       blue: '#0000FF',
       grey: '#808080'
     },
-    node_size: 5,
-    line_width: 2,
+    node_size: 9,
+    line_width: 4,
     image_centre: {
       x: 0,
       y: 0
     },
-    width: 800,
-    height: 600
+    width: 960,
+    height: 720
 };
 
 function alternate_hex_encoding(colour) {

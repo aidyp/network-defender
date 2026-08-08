@@ -3,14 +3,6 @@ import { PHASER_RENDER_CONFIG } from "./renderConfig.js";
 
 
 
-class PlayerInfo extends Phaser.GameObjects.Text {
-    constructor(scene, x, y, text, style) {
-      super(scene, x, y, text, style);
-      scene.add.existing(this);
-    }
-  }
-  
-
 class EdgeGraphic extends Phaser.GameObjects.Line {
     constructor(scene, x, y, x1, y1, x2, y2, strokeColor) {
       super (scene, x, y, x1, y1, x2, y2, strokeColor);
@@ -35,9 +27,10 @@ class NodeGraphic extends Phaser.GameObjects.Arc {
 
 class MapGUI {
     constructor(scene) {
-        this.scene = scene 
+        this.scene = scene
         this.node_graphics = {};
         this.edge_graphics = {};
+        this.built = false;
     }
 
     scale_node_position(node_position, width, height) {
@@ -45,9 +38,20 @@ class MapGUI {
         return scaled_xy;
     }
 
+    /**
+     * The layout (edges + nodes) never changes within a session - only
+     * which nodes are coloured does. So this builds the graphics once
+     * and every later call just recolours the existing objects, instead
+     * of piling up a fresh set of GameObjects per redraw.
+     */
     draw_map(mapInfo) {
-        // Draw the edges, then the nodes 
-        console.log(mapInfo);
+        this._build_layout(mapInfo);
+        this._colour_nodes(mapInfo);
+    }
+
+    _build_layout(mapInfo) {
+        if (this.built) {return}
+        this.built = true;
 
         let left, right, x1, y1, x2, y2;
         for (var i = 0; i < mapInfo.edges.length; i++) {
@@ -67,22 +71,27 @@ class MapGUI {
 
         }
 
-        let x, y; 
+        let x, y;
         for (var i = 0; i < mapInfo.nodes.length; i++) {
             [x, y] = this.scale_node_position(mapInfo.positions[i], PHASER_RENDER_CONFIG.width, PHASER_RENDER_CONFIG.height);
             var circle = new NodeGraphic(this.scene, i, x, y, PHASER_RENDER_CONFIG.node_size, PHASER_RENDER_CONFIG.colours.white, 1);
             this.node_graphics[i] = circle;
         }
+    }
 
-        // Colour occupied nodes
+    _colour_nodes(mapInfo) {
+        // Reset everyone to white (and clear any leftover highlight ring)
+        // first, so a node that's no longer occupied doesn't stay coloured.
+        Object.values(this.node_graphics).forEach((node) => {
+            node.setFillStyle(PHASER_RENDER_CONFIG.colours.white, 1);
+            this._clear_highlighted_node(node.node_id);
+        });
+
         // For now the order will help visually show who has won
         // But to change after prototyping
         this.node_graphics[mapInfo.characters.honey].setFillStyle(PHASER_RENDER_CONFIG.colours.yellow, 1);
-        this.node_graphics[mapInfo.characters.robber].setFillStyle(PHASER_RENDER_CONFIG.colours.red, 1);  
+        this.node_graphics[mapInfo.characters.robber].setFillStyle(PHASER_RENDER_CONFIG.colours.red, 1);
         this.node_graphics[mapInfo.characters.cop].setFillStyle(PHASER_RENDER_CONFIG.colours.green, 1);
-
-
-
     }
 
     highlight_node(node_id, colour) {
@@ -105,5 +114,5 @@ class MapGUI {
 
 }
 
-export { EdgeGraphic, NodeGraphic, PlayerInfo, MapGUI};
+export { EdgeGraphic, NodeGraphic, MapGUI };
 
